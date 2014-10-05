@@ -1,79 +1,764 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="exampleApp">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Angular-language-picker : Angular language picker, an unofficial fork of ">
+<head>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A language picker is an AngularJS modul that allows selecting a language from a dialog.">
+    <meta name="keywords" content="i18n, internationalization, angular, language, picker">
+    <meta name="author" content="Andrej Zachar">
 
-    <title>Angular-language-picker</title>
-  </head>
+    <title>Language Picker for Angular JS</title>
 
-  <body>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/azachar/angular-language-picker">View on GitHub</a>
+    <!-- Custom CSS -->
+    <link href="css/agency.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 
-          <h1 id="project_title">Angular-language-picker</h1>
-          <h2 id="project_tagline">Angular language picker, an unofficial fork of </h2>
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link href="http://ocodia.com/assets/stylesheets/okaidia.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/azachar/angular-language-picker/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/azachar/angular-language-picker/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+    <!-- Language Picker dependencies -->
+	<link rel="stylesheet" href="http://lipis.github.io/flag-icon-css/css/flag-icon.min.css">
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+</head>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<body id="page-top" class="index" ng-controller="MainCtrl">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                				<i class="fa fa-language b"></i>
+                				<i class="a"> Angular </i>
+                				<i class="b"> Language </i>
+								<i class="c"> Picker</i>
+
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#features">Features</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#usage">Usage</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#installation">Installation</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#team">Team</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container" ng-controller="SampleCtrl">
+            <div class="intro-text">
+            	<div class="row">
+            		<div class="col-md-6">
+		           		<img src='img/screenshots/language-picker-example.png' alt="Language Picker Example" class=" img-responsive img-rounded"/>
+
+ 	<language-picker languages="codeSamples.supportedLangs" on-change="onLanguageChange(language)"> Show live example</language-picker>
+ 	
+     
+	            	</div>	
+	            	<div class="col-md-6">
+	            		 <div ng-hide="show">
+				                <div class="intro-lead-in">A beautiful</div>
+				                <div class="intro-heading">Language Picker</div>
+						 </div>
+		                <div ng-if="show">
+						        <div class="intro-lead-in">Selected Language</div>
+				                <div class="intro-heading"><code>{{language.englishName}}</code></div>
+						 </div>
+
+						<ul class="list-inline social-buttons">
+			                <li>
+			                    <iframe src="http://ghbtns.com/github-btn.html?user=azachar&amp;repo=angular-language-picker&amp;type=watch&amp;count=false" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+			                </li>
+			                <li>
+			                    <iframe src="http://ghbtns.com/github-btn.html?user=azachar&amp;repo=angular-language-picker&amp;type=fork&amp;count=false" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+			                </li>
+			            </ul>
+	            	</div>	
+            	</div>	
+
+		        <a href="#features" class="page-scroll btn btn-xl">Features</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Features</h2>
+                    <h3 class="section-subheading text-muted">The Language Picker for AngularJS aims to provide a light, out-of-box solution for selecting languages.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary a"></i>
+                        <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">SVG Flags</h4>
+                    <p class="text-muted">Each language comes with a beautifull SVG flag!</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary b"></i>
+                        <i class="fa fa-filter fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Language filtering</h4>
+                    <p class="text-muted">Search between languages to narrow down the selection.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary c"></i>
+                        <i class="fa fa-bold fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Based on Bootstrap 3</h4>
+                    <p class="text-muted">Easy customization of look and feel via templates</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid Section -->
+    <section id="usage" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Usage</h2>
+                    <h3 class="section-subheading text-muted">The language picker is very easy to use, see the following examples</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/basic.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Basic</h4>
+                        <p class="text-muted">Simple example</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/typical.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Typical</h4>
+                        <p class="text-muted">Typical out-of-box solution</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/no-flags.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Without flags</h4>
+                        <p class="text-muted">Example with turned off images for countries</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/custom-modal.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Custom</h4>
+                        <p class="text-muted">Example with a custom design for modal dialog</p>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/escape.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Escape</h4>
+                        <p class="text-muted">Website Design</p>
+                    </div>
+                </div> -->
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-eye fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/attributes.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Attributes</h4>
+                        <p class="text-muted">List of all attributes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="installation">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Installation</h2>
+                    <h3 class="section-subheading text-muted"><code>bower install azachar/angular-language-picker --save</code></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/1.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Add the modul<h4>
+                                    <h4 class="subheading"><code>'language-picker'</code></h4>
+                                </div>
+                                    <p class="text-muted">
+                                    	to your main angular module.
+                                    	<pre><code class="language-javascript">
+var module = angular.module('myApp',[
+ 		'language-picker'
+]);</code></pre>
+                                    </p>
+                                <div class="timeline-body">
+                                	<p></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/2.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Add the picker</h4>
+                                    <h4 class="subheading">to your html file</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted"><pre><code class="language-markup">&lt;language-picker
+	languages=&quot;['en-US', 'fr-FR']&quot;
+	on-change=&quot;someCallback(language)&quot;&gt;
+ Choose a language
+&lt;/language-picker&gt;
+</code></pre></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/4.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Process the selection</h4>
+                                    <h4 class="subheading">in your controller</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">
+<pre><code class="language-javascript">
+module.controller('MyCtrl', function ($scope) {
+
+  $scope.onLanguageChange = 
+   function (language) {
+     //process the language change
+    $scope.myLang = language.code;
+  };
+
+});
+</code></pre></p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Add dependencies</h4>
+                                    <h4 class="subheading">If you are using <code>grunt-wiredep</code>, it should be done automatically.</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Otherwise ensure that you have the css and js dependencies for AngularJs, Bootstrap, UI-Bootstrap, FontAwesome, Flag-Icon and this Angular Language Picker at your <code>index.html</code>.
+                                   </p>
+                                </div>
+                            </div>
+<pre><code class="language-markup">&lt;!-- ... --&gt;
+&lt;head&gt;
+ &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css&quot;&gt;
+ &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css&quot;&gt;
+ &lt;link rel=&quot;stylesheet&quot; href=&quot;http://lipis.github.io/flag-icon-css/css/flag-icon.min.css&quot;&gt;
+
+&lt;!-- ...  end of the body element--&gt;
+ &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js&quot;&gt;&lt;/script&gt;
+ &lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js&quot;&gt;&lt;/script&gt;
+ &lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js&quot;&gt;&lt;/script&gt;
+
+ &lt;script src=&quot;.../angular-language-picker.js&quot;&gt;&lt;/script&gt;
+ &lt;script src=&quot;.../angular-language-picker.templates.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
 </code></pre>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4>That
+                                    <br>is
+                                    <br>All!</h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+    <!-- Team Section -->
+    <section id="team" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Our Amazing Contributors</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="https://avatars2.githubusercontent.com/u/1455535?v=2&s=200" class="img-responsive img-circle" alt="">
+                        <h4>Kate Hudson</h4>
+                        <p class="text-muted">Initiator</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="https://github.com/k88hudson"><i class="fa fa-github"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="https://pbs.twimg.com/profile_images/510491908783624192/Bhrx6FT__200x200.png" class="img-responsive img-circle" alt="">
+                        <h4>Andrej Zachar</h4>
+                        <p class="text-muted">Continuator</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="https://github.com/azachar"><i class="fa fa-github"></i></a>
+                            </li>
+                            <li><a href="https://twitter.com/andrej_zachar"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/pub/andrej-zachar"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/team/2.jpg" class="img-responsive img-circle" alt="">
+                        <h4>YOU</h4>
+                        <p class="text-muted">can be the next contributor!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p class="large text-muted">If you are interested in a collaboration, feel free to fork and come back to us with your PR!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+    <!-- Clients Aside 
+    <aside class="clients">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/envato.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/designmodo.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/themeforest.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/creative-market.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </aside>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+    -->
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Andrej Zachar 2014</span> 
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="https://github.com/azachar/angular-language-picker"><i class="fa fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li>A fork from &copy; <a href="https://github.com/k88hudson/angular-language-picker">k88hudson</a> | <a href="http://choosealicense.com/licenses/mpl-2.0/">Licensed under MPL-2</a></li>
+                        <li>&copy; <a href="http://sarabbit.openphoto.net/gallery/">Sarah Klockars-Clauser</a> for <a href="http://openphoto.net/gallery/image/view/22341">openphoto.net</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+            	<div class="col-md-12">
+            		
+            	</div>
+            </div>
+        </div>
+    </footer>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Basic</h2>
+                            <p class="item-intro text-muted">A simple example with 3 language</p>
+ 
+                                
+ <div ng-controller="SampleCtrl">
+	 <language-picker languages="['en-US','de','fr']" on-change="onLanguageChange(language)">
+	       Language Picker
+	 </language-picker>
+	 <pre><code class="language-markup">{{codeSamples.basic}}</code></pre>
+	</br>
+	 <div class="item-intro " ng-show="show">
+	        <h4>Selected language</h4>
+	        <ul class="list-inline">
+	          <li> <label class="info">English name</label> <code>{{language.englishName}}</code></li> 
+	          <li> <label class="info">Native name</label> <code>{{language.nativeName}}</code></li> 
+	          <li> <label class="info">Locale code</label> <code>{{language.code}}</code></li> 
+	          <li> <label class="info">Country</label> <code>{{language.country}}</code></li> 
+	          <li> <label class="info">Locale code</label> (low dash variant): <code>{{language.asLowDashCode()}}</code></li> 
+	        </ul>
+	 </div>
+ </div>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Angular-language-picker maintained by <a href="https://github.com/azachar">azachar</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
+    <!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Typical</h2>
+                            <p class="item-intro text-muted">A typical example with a filtering of multiple languages.</p>
+ 
+                                
+ <div ng-controller="SampleCtrl">
+ 	<language-picker languages="codeSamples.supportedLangs" on-change="onLanguageChange(language)"> Language Picker</language-picker>
+	<pre><code class="language-markup">{{codeSamples.typical}}</code></pre>
+	</br>
+	 <div class="item-intro " ng-show="show">
+	        <h4>Selected language</h4>
+	        <ul class="list-inline">
+	          <li> <label class="info">English name</label> <code>{{language.englishName}}</code></li> 
+	          <li> <label class="info">Native name</label> <code>{{language.nativeName}}</code></li> 
+	          <li> <label class="info">Locale code</label> <code>{{language.code}}</code></li> 
+	          <li> <label class="info">Country</label> <code>{{language.country}}</code></li> 
+	          <li> <label class="info">Locale code</label> (low dash variant): <code>{{language.asLowDashCode()}}</code></li> 
+	        </ul>
+	 </div>
+ </div>
+     
+
+
+                                                       <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>No flags</h2>
+                            <p class="item-intro text-muted">A typical example with a filtering of multiple languages but without flags.</p>
+ 
+                                
+ <div ng-controller="SampleCtrl">
+ 	<language-picker languages="codeSamples.supportedLangs" on-change="onLanguageChange(language)" flags="false"> Language Picker</language-picker>
+	<pre><code class="language-markup">{{codeSamples.noFlags}}</code></pre>
+	</br>
+	 <div class="item-intro " ng-show="show">
+	        <h4>Selected language</h4>
+	        <ul class="list-inline">
+	          <li> <label class="info">English name</label> <code>{{language.englishName}}</code></li> 
+	          <li> <label class="info">Native name</label> <code>{{language.nativeName}}</code></li> 
+	          <li> <label class="info">Locale code</label> <code>{{language.code}}</code></li> 
+	          <li> <label class="info">Country</label> <code>{{language.country}}</code></li> 
+	          <li> <label class="info">Locale code</label> (low dash variant): <code>{{language.asLowDashCode()}}</code></li> 
+	        </ul>
+	 </div>
+ </div>
+     
 
-  </body>
+
+                                                       <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 4 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+
+
+
+<script type="text/ng-template" id="custom.tpl.html">
+        <div class="modal-header dialog-header-error">
+        	<button ng-click="close()" class="close"><span class="fa fa-times"></span><span class="sr-only">Close</span></button><h3 class="modal-title"><span class="fa fa-language"> </span>  Select a language</h3></div><div class="modal-body modal-lang-picker"><div ng-show="languages.length &gt; limitMin" class="form-group"><input type="search" ng-model="search" placeholder="Search languages..." class="form-control"/><h4>We have {{languages.length}} languages</h4></div><div class="row"><div ng-repeat="lang in languages | filter:search | limitTo: limitMax" class="col-xs-6 col-sm-4 col-lg-4"><a href="#" ng-click="onLanguageChange({language:lang})" class="language"><span ng-if="flags"><span class="flag-icon flag-icon-{{lang.country}}"></span>&nbsp;</span><span>{{lang.nativeName}} </span></a></div><div ng-if="languages.length - limitMax &gt; 0" class="col-xs-6 col-sm-3 col-lg-2">+ {{languages.length - limitMax}} more</div></div>
+	         <div class=".container">
+		         <div class="col-md-12">
+			        <div class="well well-lg text-center a">  
+			          Don't see your language? Help us <a href="https://poeditor.com/join/project?hash=e53fd535fc7cd1b1ea50e018f1bb838a">translate!</a>
+			        </div>
+		   		 </div>
+	   		 </div>
+        </div>
+</script>
+
+							<h2>Custom template</h2>
+                            <p class="item-intro text-muted">An advanced example with a custom modal dialog template</p>
+                                
+ <div ng-controller="SampleCtrl">
+ 	<language-picker languages="codeSamples.supportedLangs" on-change="onLanguageChange(language)" template='custom.tpl.html'> Language Picker</language-picker>
+	<pre><code class="language-markup">{{codeSamples.customModal}}</code></pre>
+	</br>
+	 <div class="item-intro " ng-show="show">
+	        <h4>Selected language</h4>
+	        <ul class="list-inline">
+	          <li> <label class="info">English name</label> <code>{{language.englishName}}</code></li> 
+	          <li> <label class="info">Native name</label> <code>{{language.nativeName}}</code></li> 
+	          <li> <label class="info">Locale code</label> <code>{{language.code}}</code></li> 
+	          <li> <label class="info">Country</label> <code>{{language.country}}</code></li> 
+	          <li> <label class="info">Locale code</label> (low dash variant): <code>{{language.asLowDashCode()}}</code></li> 
+	        </ul>
+	 </div>
+ </div>
+     
+
+
+                                                       <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Portfolio Modal 6 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+    <h2>Attributes</h2>
+    <p class="item-intro text-muted">The <code>language-picker</code> markup has the following attributes:</p>
+
+    <pre><code class="language-markup">{{codeSamples.attributes}}</code></pre>
+    <ul class="text-left">
+      <li><code>languages</code> (array): A list of all supported language codes.</li>
+      <li><code>on-change</code> (function): A callback. Should take a single argument, <code>language</code>, which is the country code of the language that was selected. <br/>The language object has the following fields:
+
+        <p>
+          <h5>Example for locale <code>sk-SK</code></h5>
+        <ul class="list-group">
+          <li  class="list-group-item"> <code>language.englishName</code>= Slovak (Slovakia)</li> 
+          <li  class="list-group-item"> <code>language.nativeName</code>= Slovenčina (Slovakia)</li> 
+          <li  class="list-group-item"> <code>language.code</code>= sk-SK</li> 
+          <li  class="list-group-item"> <code>language.asLowDashCode()</code>= sk_SK</li> 
+          <li  class="list-group-item"> <code>language.country</code>= sk</li> 
+        </ul>
+      </p>
+      </li>
+      <li><code>flags</code> (boolean): Enable or disable displaying language flag next a language. The flags are enabled by default. The country flags are parsed from locale. So please specify a locale fully - <code>'en-US'</code> instead of <code>'en'</code>.</li>
+      <li><code>template</code> (String): a name for a custom modal template. The default value is <code>language-picker-dialog.tpl.html</code> </li>
+    </ul>
+
+    					<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/agency.js"></script>
+
+    <!-- Custom code highlighting JavaScript -->
+    <script src="http://ocodia.com/assets/javascripts/prism.js"></script>
+
+
+
+    <!-- Language Picker dependencies -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>
+	<script src="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.js"></script>
+	<script src="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.templates.js"></script>
+	<script src="js/picker-examples.js"></script>
+
+	<!-- Custom code for these examples -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-sanitize.js"></script>
+</body>
+
 </html>

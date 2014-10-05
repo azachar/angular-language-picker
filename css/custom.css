@@ -1,0 +1,12 @@
+.a {
+    color:red;
+}
+
+.c {
+    color:green;
+}
+
+
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-error span, .dialog-header-error h3 { color: #ffffff; }
