@@ -14,7 +14,7 @@ var module = angular.module('exampleApp', ['language-picker','ngSanitize']);
      typical: '<language-picker languages="'+lgs+'" on-change="onLanguageChange(language)">\n  Language Picker\n</language-picker>',
      noFlags: '<language-picker languages="'+lgs+'" on-change="onLanguageChange(language)"  flags="false">\n  Language Picker\n</language-picker>',
      customModal: '<language-picker languages="'+lgs+'" on-change="onLanguageChange(language)"  flags="false">\n  Language Picker\n</language-picker>',
-     attributes: '<language-picker languages="'+lgs+'" on-change="onLanguageChange(language)" template="custom.tpl.html">\n   Choose language\n</language-picker>',
+     attributes: '<language-picker languages="'+lgs+'" on-change="onLanguageChange(language)" template="custom.tpl.html" icon="fa fa-language">\n   Choose language\n</language-picker>',
      supportedLangs: ['en-US', 'es-AR', 'sk-SK', 'zh-CN', 'fa-IR', 'fr', 'he-IL', 'ru', 'de-CH']
    };
 });

@@ -30,7 +30,8 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Language Picker dependencies -->
-	<link rel="stylesheet" href="http://lipis.github.io/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="http://lipis.github.io/flag-icon-css/css/flag-icon.min.css">
+	<link rel="stylesheet" href="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -356,6 +357,7 @@ module.controller('MyCtrl', function ($scope) {
  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css&quot;&gt;
  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css&quot;&gt;
  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://lipis.github.io/flag-icon-css/css/flag-icon.min.css&quot;&gt;
+ &lt;link rel=&quot;stylesheet&quot; href=&quot;.../angular-language-picker.min.css&quot;&gt;
 
 &lt;!-- ...  end of the body element--&gt;
  &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js&quot;&gt;&lt;/script&gt;
@@ -718,6 +720,7 @@ module.controller('MyCtrl', function ($scope) {
       </li>
       <li><code>flags</code> (boolean): Enable or disable displaying language flag next a language. The flags are enabled by default. The country flags are parsed from locale. So please specify a locale fully - <code>'en-US'</code> instead of <code>'en'</code>.</li>
       <li><code>template</code> (String): a name for a custom modal template. The default value is <code>language-picker-dialog.tpl.html</code> </li>
+      <li><code>icon</code> (String): font awesome name of the language icon. The default value is <code>fa fa-language</code> </li>
     </ul>
 
     					<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
@@ -756,7 +759,7 @@ module.controller('MyCtrl', function ($scope) {
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>
 	<script src="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.js"></script>
-	<script src="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.templates.js"></script>
+    <script src="https://rawgit.com/azachar/angular-language-picker/master/dist/angular-language-picker.templates.js"></script>
 	<script src="js/picker-examples.js"></script>
 
 	<!-- Custom code for these examples -->
