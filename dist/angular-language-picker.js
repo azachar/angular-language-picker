@@ -787,7 +787,7 @@
           link: function(scope, element, attrs, ctrl) {
 
             if (angular.isDefined(scope.icon)) {
-              scope.ikon = scope.icon === 'icon ' ? 'fa fa-language' : scope.icon;
+              scope.ikon = scope.icon === 'icon' ? 'fa fa-language' : scope.icon;
             }
 
             var flags;
@@ -802,13 +802,10 @@
 
             function getLangCodeWithLowDash(locale) {
               var splitLocale = locale.split('-');
-              var result = 'en_US';
 
-              result = splitLocale.length > 1 ?
-                      (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase()) :
-                      splitLocale[0].toLowerCase();
-
-              return result;
+              return splitLocale.length > 1 ?
+                     (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase()) :
+                     splitLocale[0].toLowerCase();
             }
 
             function getCountry(locale) {
