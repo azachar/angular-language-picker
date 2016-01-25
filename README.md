@@ -1,4 +1,4 @@
-# Angular language picker 
+# Angular language picker
 A fork that aims to provide out-of-box solution for selecting languages. [![Build Status](https://travis-ci.org/azachar/angular-language-picker.svg)](https://travis-ci.org/azachar/angular-language-picker)
 
 # Home Page with examples
@@ -9,7 +9,7 @@ http://blog.chocolatejar.eu/angular-language-picker
 * Country's flag
 * Look and feel customization via templates
 * Search between languages if there too many to select from
-* Based on Bootstrap 3 and UI Bootstrap 0.14
+* Based on Bootstrap 3 and UI Bootstrap 1.1.0
 
 ## Install
 

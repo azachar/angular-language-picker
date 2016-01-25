@@ -111,8 +111,8 @@
       englishName: "German (Austria)"
     },
     'de-DE': {
-      nativeName: "Deutsch (German)",
-      englishName: "German (German)"
+      nativeName: "Deutsch (Deutschland)",
+      englishName: "German (Germany)"
     },
     'de-CH': {
       nativeName: "Deutsch (Switzerland)",
@@ -410,6 +410,10 @@
       nativeName: "Latin",
       englishName: "Latin"
     },
+    'lb': {
+      nativeName: "Lëtzebuergesch",
+      englishName: "Luxembourgish"
+    },
     'li-NL': {
       nativeName: "Lèmbörgs",
       englishName: "Limburgish"
@@ -626,9 +630,13 @@
       nativeName: "Svenska",
       englishName: "Swedish"
     },
-    'sw-KE': {
+    'sw': {
       nativeName: "Kiswahili",
       englishName: "Swahili"
+    },
+    'sw-KE': {
+      nativeName: "Kiswahili",
+      englishName: "Swahili (Kenya)"
     },
     'ta': {
       nativeName: "தமிழ்",
@@ -718,17 +726,33 @@
       nativeName: "ייִדיש (German)",
       englishName: "Yiddish (German)"
     },
+    'zh': {
+      nativeName: "中文",
+      englishName: "Chinese"
+    },
+    'zh-Hans': {
+      nativeName: "中文简体",
+      englishName: "Chinese Simplified"
+    },
+    'zh-Hant': {
+      nativeName: "中文繁體",
+      englishName: "Chinese Traditional" 
+    },
     'zh-CN': {
-      nativeName: "中文(简体)",
-      englishName: "Simplified Chinese (China)"
+      nativeName: "中文（中国）",
+      englishName: "Chinese Simplified (China)"
     },
     'zh-HK': {
-      nativeName: "中文(香港)",
-      englishName: "Traditional Chinese (Hong Kong)"
+      nativeName: "中文（香港）",
+      englishName: "Chinese Traditional (Hong Kong)"
+    },
+    'zh-SG': {
+      nativeName: "中文（新加坡）",
+      englishName: "Chinese Simplified (Singapore)"
     },
     'zh-TW': {
-      nativeName: "中文(台灣)",
-      englishName: "Traditional Chinese (Taiwan)"
+      nativeName: "中文（台灣）",
+      englishName: "Chinese Traditional (Taiwan)"
     },
     'zu-ZA': {
       nativeName: "isiZulu",
@@ -736,7 +760,9 @@
     }
   };
 }));
-;(function(window, angular) {
+;'use strict';
+
+(function(window, angular) {
   angular
     .module('language-picker', ['templates-languagePicker', 'ui.bootstrap'])
     .constant('langMap', window.languageMappingList)
@@ -758,23 +784,15 @@
             template: '@?'
           },
           templateUrl: 'language-picker-button.tpl.html',
-          link: function(scope, elm, attrs, ctrl) {
+          link: function(scope, element, attrs, ctrl) {
 
-            if (angular.isDefined(scope.icon)){
-               if (scope.icon == 'icon'){
-                  scope.ikon ='fa fa-language';
-               } else {
-                  scope.ikon = scope.icon;
-              }
+            if (angular.isDefined(scope.icon)) {
+              scope.ikon = scope.icon === 'icon ' ? 'fa fa-language' : scope.icon;
             }
 
             var flags;
-            if (angular.isDefined(scope.flags)){
-               if (scope.flags == 'flags'){
-                  flags = true;
-               } else {
-                  flags = Boolean(scope.flags);
-              }
+            if (angular.isDefined(scope.flags)) {
+              flags = scope.flags === 'flags' ? true : Boolean(scope.flags);
             }
 
             var modalTemplateUrl = 'language-picker-dialog.tpl.html';
@@ -784,25 +802,19 @@
 
             function getLangCodeWithLowDash(locale) {
               var splitLocale = locale.split('-');
-              var locale = 'en_US';
+              var result = 'en_US';
 
-              if (splitLocale.length > 1) {
-                locale = (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase());
-              } else {
-                locale = splitLocale[0].toLowerCase();
-              }
+              result = splitLocale.length > 1 ?
+                      (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase()) :
+                      splitLocale[0].toLowerCase();
 
-              return locale;
+              return result;
             }
 
             function getCountry(locale) {
               var splitLocale = locale.split('-');
 
-              if (splitLocale.length > 1) {
-                return splitLocale[1].toLowerCase();
-              }
-
-              return locale;
+              return splitLocale.length > 1 ? splitLocale[1].toLowerCase() : locale;
             }
 
             function createLanguageObj(locale) {
@@ -810,8 +822,10 @@
                 nativeName: locale,
                 englishName: locale
               };
+
               language.code = locale;
               language.country = getCountry(locale);
+
               language.asLowDashCode = function() {
                 return getLangCodeWithLowDash(locale);
               };
@@ -834,21 +848,19 @@
                   });
 
                   $scope.selectedLanguage = function(language) {
-                    if (language){
-                      scope.model  = language.code;
-                    } else {
-                      scope.model = undefined;
-                    }
-                    if (angular.isDefined(scope.callback)){
+                    scope.model = language ? language.code : undefined;
+
+                    if (angular.isDefined(scope.callback)) {
                       scope.callback()(language);
                     }
+
                     $uibModalInstance.close();
                   };
                 }]
               });
             };
 
-            elm.bind('click', scope.open);
+            element.bind('click', scope.open);
           }
         };
       }

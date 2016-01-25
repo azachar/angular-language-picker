@@ -26,6 +26,29 @@ module.exports = function (grunt) {
       }
     },
 
+    // JS linter
+    jshint: {
+      options: {
+        jshintrc: './.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      files: [
+        './src/**/*.js'
+      ]
+    },
+
+    // JS coding style linter
+    jscs: {
+      options: {
+        config: "./.jscsrc"
+      },
+      files: {
+        src: [
+          './src/**/*.js'
+        ]
+      }
+    },
+
     html2js: {
       options: {
         base: '.tmp/src/templates',
@@ -85,7 +108,7 @@ module.exports = function (grunt) {
     watch: {
       src: {
         files: ['src/**/*'],
-        tasks: ['build'],
+        tasks: ['jshint', 'jscs', 'build'],
         options: {
           spawn: false
         }
@@ -99,7 +122,7 @@ module.exports = function (grunt) {
           port: 1987
         }
       }
-    },
+    }
 
   });
 
