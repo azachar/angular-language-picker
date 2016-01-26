@@ -27,6 +27,9 @@ exports.paths = {
   tmp: '.tmp'
 };
 
+/**
+ * Implementation for formatting the date in the minified banners
+ */
 exports.getDate = function() {
   var date = new Date();
 
