@@ -78,6 +78,7 @@
                   $scope.ikon = scope.ikon;
                   $scope.help = scope.help;
                   $scope.empty = scope.empty;
+
                   $scope.languages = scope.languages.map(function(locale) {
                     return createLanguageObj(locale);
                   });

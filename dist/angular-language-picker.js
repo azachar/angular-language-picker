@@ -760,7 +760,7 @@
     }
   };
 }));
-;'use strict';
+'use strict';
 
 (function(window, angular) {
   angular
