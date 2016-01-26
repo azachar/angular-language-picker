@@ -16,8 +16,6 @@ exports.appName = require('../package.json').name;
  *  of the tasks
  */
 
-var gutil = require('gulp-util');
-
 /**
  * Main paths of our project
  */
@@ -35,25 +33,3 @@ exports.getDate = function() {
 
   return '/*! ' + require('../package.json').name + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
 }();
-
-/**
- *  Wiredep is the lib which inject bower dependencies in your project
- *  Mainly used to inject script tags in the index.html but also used
- *  to inject css preprocessor deps and js files in karma
- */
-exports.wiredep = {
-  directory: 'bower_components',
-  devDependencies: true
-};
-
-/**
- *  Common implementation for an error handler of a Gulp plugin
- */
-exports.errorHandler = function(title) {
-  'use strict';
-
-  return function(err) {
-    gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
-    this.emit('end');
-  };
-};
