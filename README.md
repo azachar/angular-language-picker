@@ -1,6 +1,6 @@
 # Angular language picker
 A fork that aims to provide out-of-box solution for selecting languages. [![Build Status](https://travis-ci
-.org/azachar/angular-language-picker.svg)](https://travis-ci.org/azachar/angular-language-picker)[![devDependency 
+.org/azachar/angular-language-picker.svg)](https://travis-ci.org/azachar/angular-language-picker) [![devDependency 
 Status](https://david-dm.org/azachar/angular-language-picker/dev-status.svg)](https://david-dm
 .org/azachar/angular-language-picker#info=devDependencies)
 
