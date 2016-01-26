@@ -25,17 +25,25 @@ bower install azachar/angular-language-picker --save
 * The branch ``master`` contains the latest development version
 * The documentation is located in the branch ``gh-pages``
 
-* To build distribution use this command
-```bash
-  grunt build
-```
 * To include the development live preview into your project use
 
 In the angular-language-picker folder
 
 ```bash
   bower link
-  grunt dev
+  gulp dev
+```
+
+* To test the development live preview into your project use
+
+In the angular-language-picker folder
+```bash
+  gulp test
+```
+
+* To build distribution use this command
+```bash
+  gulp build
 ```
 
 In your project folder
