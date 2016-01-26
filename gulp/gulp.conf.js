@@ -32,4 +32,4 @@ exports.getDate = function() {
   var date = new Date();
 
   return '/*! ' + require('../package.json').name + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
-}();
+};

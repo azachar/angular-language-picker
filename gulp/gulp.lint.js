@@ -10,7 +10,7 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('lint', ['jsLint', 'stylusLint']);
 
-gulp.task('jsLint', function () {
+gulp.task('jsLint', function() {
   return gulp
       .src(conf.paths.src + '/**/*.js')
       .pipe($.jshint())

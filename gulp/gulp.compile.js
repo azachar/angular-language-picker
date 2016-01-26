@@ -32,7 +32,7 @@ gulp.task('stylus', function() {
       .pipe($.rename({
         suffix: '.min'
                    }))
-      .pipe($.header(conf.getDate))
+      .pipe($.header(conf.getDate()))
       .pipe($.bytediff.stop())
       .pipe(gulp.dest(conf.paths.dist));
 });

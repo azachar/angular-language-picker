@@ -5,7 +5,7 @@
 
 var gulp = require('gulp');
 var conf = require('./gulp.conf');
-var ngHtml2Js = require("gulp-ng-html2js");
+var ngHtml2Js = require('gulp-ng-html2js');
 var $ = require('gulp-load-plugins')();
 
 gulp.task('build', ['compile', 'uglify']);
@@ -27,26 +27,26 @@ gulp.task('html2js', function() {
       .pipe($.bytediff.stop())
       .pipe(ngHtml2Js({
         moduleName: 'templates-languagePicker',
-        template: "$templateCache.put('<%= template.url %>',\n        '<%= template.prettyEscapedContent %>');"
+        template: '$templateCache.put(\'<%= template.url %>\',\n \'<%= template.prettyEscapedContent %>\');'
                       }))
       .pipe($.concat(conf.appName))
       .pipe($.rename({
         suffix: '.js'
                      }))
-      .pipe($.tap(function (file, t) {
+      .pipe($.tap(function(file) {
         file.contents = Buffer.concat([
-                                        new Buffer("(function(module) {\n" +
-                                                   "try {\n" +
-                                                   "  module = angular.module(" + "'templates-languagePicker'" + ");\n" +
-                                                   "} catch (e) {\n" +
-                                                   "  module = angular.module(" + "'templates-languagePicker'" + ", []);\n" +
-                                                   "}\n" +
-                                                   "module.run(['$templateCache'," +
-                                                   " function($templateCache)" +
-                                                   " {\n'use strict';\n"),
+                                        new Buffer('(function(module) {\n' +
+                                                   'try {\n' +
+                                                   '  module = angular.module(' + '\'templates-languagePicker\'' + ');\n' +
+                                                   '} catch (e) {\n' +
+                                                   '  module = angular.module(' + '\'templates-languagePicker\'' + ', []);\n' +
+                                                   '}\n' +
+                                                   'module.run([\'$templateCache\',' +
+                                                   ' function($templateCache)' +
+                                                   ' {\n\'use strict\';\n'),
                                         file.contents,
-                                        new Buffer("\n}]);\n" +
-                                                   "})();\n")
+                                        new Buffer('\n}]);\n' +
+                                                   '})();\n')
                                       ]);
       }))
       .pipe($.rename({
@@ -63,7 +63,7 @@ gulp.task('html2js', function() {
                         removeScriptTypeAttributes: true,
                         removeStyleLinkTypeAttributes: true
                       }))
-      .pipe($.header(conf.getDate))
+      .pipe($.header(conf.getDate()))
       .pipe($.rename({
                        suffix: '.min'
                      }))
@@ -71,7 +71,7 @@ gulp.task('html2js', function() {
 
 });
 
-gulp.task('uglify', ['html2js'], function () {
+gulp.task('uglify', ['html2js'], function() {
   return gulp
       .src(['bower_components/langmap/language-mapping-list.js',
             conf.paths.src + '/**/*.js'])
@@ -82,7 +82,7 @@ gulp.task('uglify', ['html2js'], function () {
       .pipe(gulp.dest(conf.paths.dist))
       .pipe($.bytediff.start())
       .pipe($.uglify())
-      .pipe($.header(conf.getDate))
+      .pipe($.header(conf.getDate()))
       .pipe($.rename({
         suffix: '.min'
                      }))

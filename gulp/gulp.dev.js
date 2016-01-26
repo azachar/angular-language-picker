@@ -10,12 +10,12 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('dev', ['connect', 'watch']);
 
-gulp.task('watch',function() {
-  $.watch(conf.paths.src + '/**/*.styl', function () {
+gulp.task('watch', function() {
+  $.watch(conf.paths.src + '/**/*.styl', function() {
     gulp.start('stylusLint');
   });
 
-  $.watch(conf.paths.src + '/**/*.js', function () {
+  $.watch(conf.paths.src + '/**/*.js', function() {
     gulp.start('jsLint');
   });
 });
