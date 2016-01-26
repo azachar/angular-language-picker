@@ -16,12 +16,12 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "angular-bootstrap": "~0.14.3",
+    "angular-bootstrap": "~1.1.0",
     "font-awesome": "~4.5.0",
     "flag-icon-css": "~1.1.0"
   },
   "devDependencies": {
-    "langmap": "~0.0.8"
+    "langmap": "~0.0.10"
   },
   "ignore": [
     "**/.*",
