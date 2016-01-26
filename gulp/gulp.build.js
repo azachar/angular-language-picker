@@ -86,7 +86,7 @@ gulp.task('uglify', ['html2js'], function () {
       .pipe($.rename({
         suffix: '.js'
                      }))
-      .pipe(gulp.dest(conf.paths.tmp))
+      .pipe(gulp.dest(conf.paths.dist))
       .pipe($.bytediff.start())
       .pipe($.uglify())
       .pipe($.header(getDate()))
@@ -94,6 +94,6 @@ gulp.task('uglify', ['html2js'], function () {
         suffix: '.min'
                      }))
       .pipe($.bytediff.stop())
-      .pipe(gulp.dest(conf.paths.tmp));
+      .pipe(gulp.dest(conf.paths.dist));
 });
 
