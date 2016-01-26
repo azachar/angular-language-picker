@@ -10,13 +10,6 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('build', ['compile', 'uglify']);
 
-var getDate = function() {
-  var date = new Date();
-
-  return '/*! ' + conf.appName + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
-};
-
-
 gulp.task('html2js', function() {
   return gulp
       .src(conf.paths.tmp + '/' + conf.paths.src + '/templates/*.tpl.html')
@@ -70,7 +63,7 @@ gulp.task('html2js', function() {
                         removeScriptTypeAttributes: true,
                         removeStyleLinkTypeAttributes: true
                       }))
-      .pipe($.header(getDate()))
+      .pipe($.header(conf.getDate))
       .pipe($.rename({
                        suffix: '.min'
                      }))
@@ -89,7 +82,7 @@ gulp.task('uglify', ['html2js'], function () {
       .pipe(gulp.dest(conf.paths.dist))
       .pipe($.bytediff.start())
       .pipe($.uglify())
-      .pipe($.header(getDate()))
+      .pipe($.header(conf.getDate))
       .pipe($.rename({
         suffix: '.min'
                      }))

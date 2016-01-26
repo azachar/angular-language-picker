@@ -1,8 +1,6 @@
 # Angular language picker
-A fork that aims to provide out-of-box solution for selecting languages. [![Build Status](https://travis-ci
-.org/azachar/angular-language-picker.svg)](https://travis-ci.org/azachar/angular-language-picker) [![devDependency 
-Status](https://david-dm.org/azachar/angular-language-picker/dev-status.svg)](https://david-dm
-.org/azachar/angular-language-picker#info=devDependencies)
+A fork that aims to provide out-of-box solution for selecting languages. [![Build Status](https://travis-ci.org/azachar/angular-language-picker.svg?branch=master)](https://travis-ci.org/azachar/angular-language-picker) [![devDependency 
+Status](https://david-dm.org/azachar/angular-language-picker/dev-status.svg)](https://david-dm.org/azachar/angular-language-picker#info=devDependencies)
 
 # Home Page with examples
 http://blog.chocolatejar.eu/angular-language-picker
@@ -25,6 +23,7 @@ bower install azachar/angular-language-picker --save
 * The branch ``master`` contains the latest development version
 * The documentation is located in the branch ``gh-pages``
 
+### Shell commands
 * To include the development live preview into your project use
 
 In the angular-language-picker folder

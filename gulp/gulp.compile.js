@@ -8,12 +8,6 @@ var conf = require('./gulp.conf');
 var nib = require('nib');
 var $ = require('gulp-load-plugins')();
 
-var getDate = function() {
-  var date = new Date();
-
-  return '/*! ' + conf.appName + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
-};
-
 gulp.task('compile', ['jade', 'stylus']);
 
 gulp.task('clean', function() {
@@ -38,7 +32,7 @@ gulp.task('stylus', function() {
       .pipe($.rename({
         suffix: '.min'
                    }))
-      .pipe($.header(getDate()))
+      .pipe($.header(conf.getDate))
       .pipe($.bytediff.stop())
       .pipe(gulp.dest(conf.paths.dist));
 });
