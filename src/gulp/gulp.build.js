@@ -74,7 +74,7 @@ gulp.task('html2js', function() {
 gulp.task('uglify', ['html2js'], function() {
   return gulp
       .src(['bower_components/langmap/language-mapping-list.js',
-            conf.paths.src + '/**/*.js'])
+            conf.paths.src + '/*.js'])
       .pipe($.concat(conf.appName))
       .pipe($.rename({
         suffix: '.js'
