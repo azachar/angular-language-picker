@@ -111,8 +111,8 @@
       englishName: "German (Austria)"
     },
     'de-DE': {
-      nativeName: "Deutsch (German)",
-      englishName: "German (German)"
+      nativeName: "Deutsch (Deutschland)",
+      englishName: "German (Germany)"
     },
     'de-CH': {
       nativeName: "Deutsch (Switzerland)",
@@ -410,6 +410,10 @@
       nativeName: "Latin",
       englishName: "Latin"
     },
+    'lb': {
+      nativeName: "Lëtzebuergesch",
+      englishName: "Luxembourgish"
+    },
     'li-NL': {
       nativeName: "Lèmbörgs",
       englishName: "Limburgish"
@@ -626,9 +630,13 @@
       nativeName: "Svenska",
       englishName: "Swedish"
     },
-    'sw-KE': {
+    'sw': {
       nativeName: "Kiswahili",
       englishName: "Swahili"
+    },
+    'sw-KE': {
+      nativeName: "Kiswahili",
+      englishName: "Swahili (Kenya)"
     },
     'ta': {
       nativeName: "தமிழ்",
@@ -718,17 +726,33 @@
       nativeName: "ייִדיש (German)",
       englishName: "Yiddish (German)"
     },
+    'zh': {
+      nativeName: "中文",
+      englishName: "Chinese"
+    },
+    'zh-Hans': {
+      nativeName: "中文简体",
+      englishName: "Chinese Simplified"
+    },
+    'zh-Hant': {
+      nativeName: "中文繁體",
+      englishName: "Chinese Traditional" 
+    },
     'zh-CN': {
-      nativeName: "中文(简体)",
-      englishName: "Simplified Chinese (China)"
+      nativeName: "中文（中国）",
+      englishName: "Chinese Simplified (China)"
     },
     'zh-HK': {
-      nativeName: "中文(香港)",
-      englishName: "Traditional Chinese (Hong Kong)"
+      nativeName: "中文（香港）",
+      englishName: "Chinese Traditional (Hong Kong)"
+    },
+    'zh-SG': {
+      nativeName: "中文（新加坡）",
+      englishName: "Chinese Simplified (Singapore)"
     },
     'zh-TW': {
-      nativeName: "中文(台灣)",
-      englishName: "Traditional Chinese (Taiwan)"
+      nativeName: "中文（台灣）",
+      englishName: "Chinese Traditional (Taiwan)"
     },
     'zu-ZA': {
       nativeName: "isiZulu",
@@ -736,7 +760,8 @@
     }
   };
 }));
-;(function(window, angular) {
+
+(function(window, angular) {
   angular
     .module('language-picker', ['templates-languagePicker', 'ui.bootstrap'])
     .constant('langMap', window.languageMappingList)
@@ -784,7 +809,6 @@
 
             function getLangCodeWithLowDash(locale) {
               var splitLocale = locale.split('-');
-              var locale = 'en_US';
 
               if (splitLocale.length > 1) {
                 locale = (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase());
