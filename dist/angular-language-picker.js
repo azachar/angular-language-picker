@@ -111,8 +111,8 @@
       englishName: "German (Austria)"
     },
     'de-DE': {
-      nativeName: "Deutsch (German)",
-      englishName: "German (German)"
+      nativeName: "Deutsch (Deutschland)",
+      englishName: "German (Germany)"
     },
     'de-CH': {
       nativeName: "Deutsch (Switzerland)",
@@ -410,6 +410,10 @@
       nativeName: "Latin",
       englishName: "Latin"
     },
+    'lb': {
+      nativeName: "Lëtzebuergesch",
+      englishName: "Luxembourgish"
+    },
     'li-NL': {
       nativeName: "Lèmbörgs",
       englishName: "Limburgish"
@@ -626,9 +630,13 @@
       nativeName: "Svenska",
       englishName: "Swedish"
     },
-    'sw-KE': {
+    'sw': {
       nativeName: "Kiswahili",
       englishName: "Swahili"
+    },
+    'sw-KE': {
+      nativeName: "Kiswahili",
+      englishName: "Swahili (Kenya)"
     },
     'ta': {
       nativeName: "தமிழ்",
@@ -718,17 +726,33 @@
       nativeName: "ייִדיש (German)",
       englishName: "Yiddish (German)"
     },
+    'zh': {
+      nativeName: "中文",
+      englishName: "Chinese"
+    },
+    'zh-Hans': {
+      nativeName: "中文简体",
+      englishName: "Chinese Simplified"
+    },
+    'zh-Hant': {
+      nativeName: "中文繁體",
+      englishName: "Chinese Traditional" 
+    },
     'zh-CN': {
-      nativeName: "中文(简体)",
-      englishName: "Simplified Chinese (China)"
+      nativeName: "中文（中国）",
+      englishName: "Chinese Simplified (China)"
     },
     'zh-HK': {
-      nativeName: "中文(香港)",
-      englishName: "Traditional Chinese (Hong Kong)"
+      nativeName: "中文（香港）",
+      englishName: "Chinese Traditional (Hong Kong)"
+    },
+    'zh-SG': {
+      nativeName: "中文（新加坡）",
+      englishName: "Chinese Simplified (Singapore)"
     },
     'zh-TW': {
-      nativeName: "中文(台灣)",
-      englishName: "Traditional Chinese (Taiwan)"
+      nativeName: "中文（台灣）",
+      englishName: "Chinese Traditional (Taiwan)"
     },
     'zu-ZA': {
       nativeName: "isiZulu",
@@ -736,7 +760,8 @@
     }
   };
 }));
-;(function(window, angular) {
+
+(function(window, angular) {
   angular
     .module('language-picker', ['templates-languagePicker', 'ui.bootstrap'])
     .constant('langMap', window.languageMappingList)
@@ -854,3 +879,261 @@
       }
     ]);
 }(this, this.angular));
+/**
+ * Created by lucien on 2016-01-25.
+ */
+'use strict';
+
+var gulp = require('gulp');
+var conf = require('./gulp.conf');
+var ngHtml2Js = require('gulp-ng-html2js');
+var $ = require('gulp-load-plugins')();
+
+gulp.task('build', ['compile', 'uglify']);
+
+gulp.task('html2js', function() {
+  return gulp
+      .src(conf.paths.tmp + '/' + conf.paths.src + '/templates/*.tpl.html')
+      .pipe($.bytediff.start())
+      .pipe($.htmlmin({
+                        collapseBooleanAttributes: true,
+                        collapseWhitespace: true,
+                        removeAttributeQuotes: true,
+                        removeComments: true,
+                        removeEmptyAttributes: true,
+                        removeRedundantAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true
+                      }))
+      .pipe($.bytediff.stop())
+      .pipe(ngHtml2Js({
+        moduleName: 'templates-languagePicker',
+        template: '$templateCache.put(\'<%= template.url %>\',\n \'<%= template.prettyEscapedContent %>\');'
+                      }))
+      .pipe($.concat(conf.appName))
+      .pipe($.rename({
+        suffix: '.js'
+                     }))
+      .pipe($.tap(function(file) {
+        file.contents = Buffer.concat([
+                                        new Buffer('(function(module) {\n' +
+                                                   'try {\n' +
+                                                   '  module = angular.module(' + '\'templates-languagePicker\'' + ');\n' +
+                                                   '} catch (e) {\n' +
+                                                   '  module = angular.module(' + '\'templates-languagePicker\'' + ', []);\n' +
+                                                   '}\n' +
+                                                   'module.run([\'$templateCache\',' +
+                                                   ' function($templateCache)' +
+                                                   ' {\n\'use strict\';\n'),
+                                        file.contents,
+                                        new Buffer('\n}]);\n' +
+                                                   '})();\n')
+                                      ]);
+      }))
+      .pipe($.rename({
+        suffix: '.templates'
+                     }))
+      .pipe(gulp.dest(conf.paths.dist))
+      .pipe($.htmlmin({
+                        collapseBooleanAttributes: true,
+                        collapseWhitespace: true,
+                        removeAttributeQuotes: true,
+                        removeComments: true,
+                        removeEmptyAttributes: true,
+                        removeRedundantAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true
+                      }))
+      .pipe($.header(conf.getDate()))
+      .pipe($.rename({
+                       suffix: '.min'
+                     }))
+      .pipe(gulp.dest(conf.paths.dist));
+
+});
+
+gulp.task('uglify', ['html2js'], function() {
+  return gulp
+      .src(['bower_components/langmap/language-mapping-list.js',
+            conf.paths.src + '/**/*.js'])
+      .pipe($.concat(conf.appName))
+      .pipe($.rename({
+        suffix: '.js'
+                     }))
+      .pipe(gulp.dest(conf.paths.dist))
+      .pipe($.bytediff.start())
+      .pipe($.uglify())
+      .pipe($.header(conf.getDate()))
+      .pipe($.rename({
+        suffix: '.min'
+                     }))
+      .pipe($.bytediff.stop())
+      .pipe(gulp.dest(conf.paths.dist));
+});
+
+
+/**
+ * Created by lucien on 2016-01-25.
+ */
+'use strict';
+
+var gulp = require('gulp');
+var conf = require('./gulp.conf');
+var nib = require('nib');
+var $ = require('gulp-load-plugins')();
+
+gulp.task('compile', ['jade', 'stylus']);
+
+gulp.task('clean', function() {
+  return gulp
+      .src(conf.paths.tmp)
+      .pipe($.clean());
+});
+
+gulp.task('stylus', function() {
+  return gulp
+      .src(conf.paths.src + '/**/*.styl')
+      .pipe($.stylus({
+                       use: [nib()],
+                       'include css': true
+                     }))
+      .pipe($.concat(conf.appName))
+      .pipe($.rename({
+        suffix: '.css'
+                     }))
+      .pipe($.bytediff.start())
+      .pipe($.cssmin())
+      .pipe($.rename({
+        suffix: '.min'
+                   }))
+      .pipe($.header(conf.getDate()))
+      .pipe($.bytediff.stop())
+      .pipe(gulp.dest(conf.paths.dist));
+});
+
+gulp.task('jade', ['clean'], function() {
+  return gulp
+      .src(conf.paths.src + '/**/*.jade')
+      .pipe($.jade({
+                     pretty: true
+                   }))
+      .pipe(gulp.dest(conf.paths.tmp + '/' + conf.paths.src));
+});
+
+/**
+ * Created by lucien on 2016-01-25.
+ */
+'use strict';
+
+/**
+ * SETTINGS
+ */
+exports.appName = require('../../package.json').name;
+
+/**
+ *  This file contains the variables used in other gulp files
+ *  which defines tasks
+ *  By design, we only put there very generic config values
+ *  which are used in several places to keep good readability
+ *  of the tasks
+ */
+
+/**
+ * Main paths of our project
+ */
+exports.paths = {
+  src: 'src',
+  dist: 'dist',
+  tmp: '.tmp'
+};
+
+/**
+ * Implementation for formatting the date in the minified banners
+ */
+exports.getDate = function() {
+  var date = new Date();
+
+  return '/*! ' + require('../../package.json').name + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
+};
+
+/**
+ * Created by lucien on 2016-01-25.
+ */
+'use strict';
+
+var gulp = require('gulp');
+var conf = require('./gulp.conf');
+var $ = require('gulp-load-plugins')();
+
+
+gulp.task('dev', ['connect', 'watch']);
+
+gulp.task('watch', function() {
+  $.watch(conf.paths.src + '/**/*.styl', function() {
+    gulp.start('stylusLint');
+  });
+
+  $.watch(conf.paths.src + '/**/*.js', function() {
+    gulp.start('jsLint');
+  });
+});
+
+gulp.task('connect', function() {
+  $.connect.server({
+    root: './',
+    port: 1987,
+    livereload: true
+                   });
+});
+
+
+/**
+ * Created by lucien on 2016-01-25.
+ */
+'use strict';
+
+var gulp = require('gulp');
+var conf = require('./gulp.conf');
+var stylish = require('gulp-jscs-stylish');
+var $ = require('gulp-load-plugins')();
+
+gulp.task('lint', ['jsLint', 'stylusLint']);
+
+gulp.task('jsLint', function() {
+  return gulp
+      .src(conf.paths.src + '/**/*.js')
+      .pipe($.jshint())
+      .pipe($.jscs())
+      .pipe(stylish.combineWithHintResults())
+      .pipe($.jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('stylusLint', function() {
+  return gulp
+      .src(conf.paths.src + '/**/*.styl')
+      .pipe($.stylint({
+        config: '.stylintrc',
+        reporter: {
+          reporter: 'stylint-stylish',
+          reporterOptions: {
+            verbose: true
+          }
+        }
+                      }))
+      .pipe($.stylint.reporter());
+});
+
+/**
+ * Created by lucien on 2016-01-26.
+ */
+'use strict';
+
+var gulp = require('gulp');
+var conf = require('./gulp.conf');
+var $ = require('gulp-load-plugins')();
+
+gulp.task('test', ['run-test']);
+
+gulp.task('run-test', function() {
+
+});

@@ -50,7 +50,7 @@ gulp.task('html2js', function() {
                                       ]);
       }))
       .pipe($.rename({
-        suffix: '.template'
+        suffix: '.templates'
                      }))
       .pipe(gulp.dest(conf.paths.dist))
       .pipe($.htmlmin({
