@@ -18,7 +18,7 @@ gulp.task('clean', function() {
 
 gulp.task('stylus', function() {
   return gulp
-      .src(conf.paths.src + '/**/*.styl')
+      .src(conf.paths.src + '/stylus/*.styl')
       .pipe($.stylus({
                        use: [nib()],
                        'include css': true
