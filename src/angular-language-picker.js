@@ -46,7 +46,6 @@
 
             function getLangCodeWithLowDash(locale) {
               var splitLocale = locale.split('-');
-              var locale = 'en_US';
 
               if (splitLocale.length > 1) {
                 locale = (splitLocale[0].toLowerCase() + '_' + splitLocale[1].toUpperCase());
