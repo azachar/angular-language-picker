@@ -6,7 +6,7 @@
 /**
  * SETTINGS
  */
-exports.appName = require('../package.json').name;
+exports.appName = require('../../package.json').name;
 
 /**
  *  This file contains the variables used in other gulp files
@@ -31,5 +31,5 @@ exports.paths = {
 exports.getDate = function() {
   var date = new Date();
 
-  return '/*! ' + require('../package.json').name + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
+  return '/*! ' + require('../../package.json').name + ' ' + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear() + ' */\n';
 };

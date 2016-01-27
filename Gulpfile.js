@@ -9,7 +9,7 @@ var wrench = require('wrench');
 wrench.readdirSyncRecursive('./src/gulp').filter(function(file) {
   return (/\.(js)$/i).test(file);
 }).map(function(file) {
-  require('./gulp/' + file)
+  require('./src/gulp/' + file)
 });
 
 gulp.task('default', ['dev']);
