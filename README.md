@@ -27,7 +27,7 @@ bower install azachar/angular-language-picker --save
 
 * To build distribution use this command
 ```bash
-  grunt build
+  gulp
 ```
 * To include the development live preview into your project use
 
@@ -35,7 +35,7 @@ In the angular-language-picker folder
 
 ```bash
   bower link
-  grunt dev
+  gulp
 ```
 
 In your project folder
@@ -46,4 +46,3 @@ In your project folder
 
 ## Want to help ?
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [Contributing](CONTRIBUTING.md).
-

@@ -1,7 +1,15 @@
+/**
+ * @name angular-language-picker
+ * @version v0.4.0
+ * @author Build by Andrej Zachar andrej@chocolatejar.eu
+ * @license MPL-2.0
+ */
+(function(window, angular){
+
 angular
   .module('language-picker', ['templates-languagePicker', 'ui.bootstrap'])
   .constant('langMap', window.languageMappingList)
-  .directive('languagePicker', function($uibModal, langMap) {
+  .directive('languagePicker', ["$uibModal", "langMap", function($uibModal, langMap) {
       return {
         restrict: 'A',
         transclude: true,
@@ -79,7 +87,7 @@ angular
           scope.open = function() {
             $uibModal.open({
               templateUrl: modalTemplateUrl,
-              controller: function($scope, $uibModalInstance) {
+              controller: ["$scope", "$uibModalInstance", function($scope, $uibModalInstance) {
                 $scope.close = $uibModalInstance.close;
                 $scope.limitMin = 4;
                 $scope.limitMax = 24;
@@ -102,11 +110,14 @@ angular
                   }
                   $uibModalInstance.close();
                 };
-              }
+              }]
             });
           };
 
           elm.bind('click', scope.open);
         }
       };
-    });
+    }]);
+
+
+})(window, window.angular);

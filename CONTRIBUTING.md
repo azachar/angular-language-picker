@@ -4,7 +4,7 @@ We'd love for you to contribute to our source code and to make Angular-Language-
 ## Overview
 1. Open an issue
 2. Make a new branch with the name of your new feature
-3. Test your new features (`test` task incoming) and if ok run `grunt build` before commit
+3. Test your new features (`test` task incoming) and if ok run `gulp` before commit
 4. Squash your commits into one commit before making your PR
 5. Make your pull request
 
