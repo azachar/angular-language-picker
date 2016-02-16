@@ -22,8 +22,24 @@ var banner = [
     ''
 ].join('\n');
 
+// Handle all of the configuration
+const gulpConfig = {
+  dest: './dist',
+  css: {
+    src: './src/styl/*.styl',
+    dest: 'angular-language-picker.css'
+  },
+  js: {
+    src: {
+      coffee: './src/coffee/*.coffee',
+      normal: './src/**/*.js'
+    },
+    langMap: './bower_components/langmap/language-mapping-list.js',
+    dest: 'angular-language-picker.js'
+  }
+}
 
-gulp.task('styles', function () {
+gulp.task('styles', function() {
  return gulp.src('./src/**/*.scss')
   .pipe($.sass().on('error', $.sass.logError))
   .pipe($.autoprefixer({
@@ -40,13 +56,13 @@ gulp.task('styles', function () {
 /**
  * Concat source files in src folder into one plugin file.
  */
-gulp.task('concat:source', ['template:source'], function(){
-    return gulp.src(
-        [
-            './src/**/*.js',
-        ])
+gulp.task('concat:source', ['compile:coffee', 'template:source'], function() {
+    return gulp.src([
+      gulpConfig.js.langMap,
+      gulpConfig.js.src.normal
+    ])
         .pipe($.insert.append('\n\n'))                  // insert spaces between source files
-        .pipe($.concat('angular-language-picker.js'))              // concat into one file
+        .pipe($.concat(gulpConfig.js.dest))              // concat into one file
         .pipe($.ngAnnotate({add:true, remove:true}))    // for strict dependecy injection
         .pipe($.wrap('(function(window, angular)'
                         +'{\n\n<%=contents%>}'          // wrap myPlugin.js for supporting
@@ -54,7 +70,14 @@ gulp.task('concat:source', ['template:source'], function(){
         .pipe(gulp.dest('.tmp'));
 });
 
-
+/**
+ * Compiles coffeescript files and put them into src folder
+ */
+gulp.task('compile:coffee', function() {
+  return gulp.src(gulpConfig.js.src.coffee)
+    .pipe($.coffee())
+    .pipe(gulp.dest('./src'))
+})
 
 /**
  * Append header to plugin file.
