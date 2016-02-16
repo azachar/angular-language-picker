@@ -22,16 +22,28 @@ var banner = [
     ''
 ].join('\n');
 
+// Handle all of the configuration
+const gulpConfig = {
+  dest: './dist',
+  css: {
+    src: './src/styl/*.styl',
+    dest: 'angular-language-picker.css'
+  }
+}
 
+
+/**
+ * Compiles stylus files in src/styl folder into one css file.
+ */
 gulp.task('styles', function () {
- return gulp.src('./src/**/*.scss')
-  .pipe($.sass().on('error', $.sass.logError))
+ return gulp.src(gulpConfig.css.src)
+  .pipe($.stylus()) // compiles stylus
   .pipe($.autoprefixer({
     browsers: ['last 2 versions'],
     cascade: false
   }))
   .pipe($.minifyCss({compatibility: 'ie8'}))
-  .pipe($.concat('angular-language-picker.css'))
+  .pipe($.concat(gulpConfig.css.dest))
   .pipe($.header(banner, {pkg: pkg}))     // append a header
   .pipe(gulp.dest('./dist'))
   .pipe($.copy('example'));
