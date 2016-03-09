@@ -8,9 +8,10 @@ const
     browserSync = require('browser-sync').create(),
     karma       = require('karma').Server,
     pkg         = require('./package.json'),
-    del         = require('del');
-    mainBowerFiles = require('main-bower-files');
-    series = require('stream-series');
+    del         = require('del'),
+    mainBowerFiles = require('main-bower-files'),
+    series = require('stream-series'),
+    path = require('path');
 
 var banner = [
     '/**',
@@ -24,11 +25,24 @@ var banner = [
 
 // Handle all of the configuration
 const gulpConfig = {
-  dest: './dist',
+  dest: 'dist',
   css: {
-    src: './src/styl/*.styl',
-    dest: 'angular-language-picker.css'
-  }
+    src: path.join('src', 'styl', '*.styl'),
+    concatName: 'angular-language-picker.css' // our main css file
+  },
+  js: {
+    concatName: 'angular-language-picker.js', // our main js file
+    template: '', // azachar langMap list
+    src: path.join('src', 'js', 'angular-language-picker.js'),
+    dest: '.tmp',
+    tmp: path.join('dist', 'angular-language-picker.js')
+  },
+  jade: {
+    templateName: 'templates-languagePicker',
+    concatName: 'angular-language-picker.templates.js',
+    src: path.join('src', 'templates', '*.tpl.jade')
+  },
+  example: 'example'
 }
 
 
@@ -43,10 +57,10 @@ gulp.task('styles', function () {
     cascade: false
   }))
   .pipe($.minifyCss({compatibility: 'ie8'}))
-  .pipe($.concat(gulpConfig.css.dest))
+  .pipe($.concat(gulpConfig.css.concatName))
   .pipe($.header(banner, {pkg: pkg}))     // append a header
-  .pipe(gulp.dest('./dist'))
-  .pipe($.copy('example'));
+  .pipe(gulp.dest(gulpConfig.dest))
+  .pipe($.copy(gulpConfig.example));
 });
 
 /**
@@ -55,15 +69,16 @@ gulp.task('styles', function () {
 gulp.task('concat:source', ['template:source'], function(){
     return gulp.src(
         [
-            './src/**/*.js',
+            gulpConfig.js.src,
         ])
         .pipe($.insert.append('\n\n'))                  // insert spaces between source files
-        .pipe($.concat('angular-language-picker.js'))              // concat into one file
-        .pipe($.ngAnnotate({add:true, remove:true}))    // for strict dependecy injection
         .pipe($.wrap('(function(window, angular)'
                         +'{\n\n<%=contents%>}'          // wrap myPlugin.js for supporting
                     +')(window, window.angular);'))      // both amd and global
-        .pipe(gulp.dest('.tmp'));
+        .pipe($.addSrc.prepend(gulpConfig.js.template)) // langMap
+        .pipe($.concat(gulpConfig.js.concatName))              // concat into one file
+        .pipe($.ngAnnotate({add:true, remove:true}))    // for strict dependecy injection
+        .pipe(gulp.dest(gulpConfig.js.dest));
 });
 
 
@@ -72,10 +87,10 @@ gulp.task('concat:source', ['template:source'], function(){
  * Append header to plugin file.
  */
 gulp.task('header:source', ['concat:source'], function() {
-    return gulp.src('.tmp/angular-language-picker.js')
+    return gulp.src(gulpConfig.js.tmp)
         .pipe($.header(banner, {pkg: pkg}))     // append a header
-        .pipe(gulp.dest('./dist'))
-        .pipe($.copy('example'));       // copy for displaying examples
+        .pipe(gulp.dest(gulpConfig.dest))
+        .pipe($.copy(gulpConfig.example));       // copy for displaying examples
 });
 
 
@@ -84,11 +99,11 @@ gulp.task('header:source', ['concat:source'], function() {
  * Uglify the plugin file and also append header to it.
  */
 gulp.task('uglify:source', ['concat:source'], function() {
-    return gulp.src('.tmp/angular-language-picker.js')
+    return gulp.src(gulpConfig.js.tmp)
         .pipe($.uglify())
         .pipe($.header(banner, {pkg: pkg}))
         .pipe($.rename({suffix: '.min'}))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest(gulpConfig.dest));
 });
 
 
@@ -96,23 +111,23 @@ gulp.task('uglify:source', ['concat:source'], function() {
  * Compile Jade files and minify htmls in src/template directory and generate angular-language-picker.templates.js which contains the htmls
  */
 gulp.task('template:source', function(){
-    return gulp.src('./src/templates/*.tpl.jade')
+    return gulp.src(gulpConfig.jade.src)
         .pipe($.jade())
         .pipe($.htmlmin({
             removeComments: true,
             collapseWhitespace: true,
             conservativeCollapse: true,
         }))
-        .pipe($.template('angular-language-picker.templates.js', {
-            module: 'templates-languagePicker'     // your module name
+        .pipe($.template(gulpConfig.jade.concatName, {
+            module: gulpConfig.jade.templateName     // your module name
         }))
         .pipe($.wrap('(function(angular)'
                         +'{\n\n<%=contents%>}'          // wrap myPlugin.js for supporting
                     +')(window.angular);'))      // both amd and global
         .pipe($.uglify())
         .pipe($.header(banner, {pkg: pkg}))     // append a header
-        .pipe(gulp.dest('./dist'))
-        .pipe($.copy('example'));
+        .pipe(gulp.dest(gulpConfig.dest))
+        .pipe($.copy(gulpConfig.example));
 });
 
 
@@ -121,7 +136,7 @@ gulp.task('template:source', function(){
  * Delete temporary build folder
  */
 gulp.task('clean:build', function(){
-    return del(['.tmp/','./dist/','./example/dist']);
+    return del([gulpConfig.js.dest, gulpConfig.dest, path.join(gulpConfig.example, gulpConfig.dest)]);
 });
 
 
@@ -172,7 +187,7 @@ gulp.task('webserver:ngdocs', ['build:ngdocs', 'init:browserSync', 'watch:ngdocs
  * Watch source files and reload docs page when detects change
  */
 gulp.task('watch:ngdocs', ['init:browserSync'], function(){
-    gulp.watch(['src/**/*.js'], ['build', 'build:ngdocs']);
+    gulp.watch([gulpConfig.js.src], ['build', 'build:ngdocs']);
     gulp.watch(['docs/index.html']).on('change', browserSync.reload);
 });
 
@@ -184,7 +199,7 @@ gulp.task('watch:ngdocs', ['init:browserSync'], function(){
 gulp.task('build:ngdocs', ['build'], function(){
     var bowerDependencies = gulp.src(mainBowerFiles(), {read: false});
 
-    return gulp.src(['./dist/**/*.js','!./dist/**/*.min.js'])
+    return gulp.src([path.join(gulpConfig.dest, '**', '*.js'),'!./dist/**/*.min.js'])
     .pipe($.ngdocs.process({
         html5Mode : false,
         scripts: [
@@ -201,7 +216,7 @@ gulp.task('build:ngdocs', ['build'], function(){
 
 
 gulp.task('watch:example', ['init:browserSync'], function() {
-    gulp.watch(['src/**/*.js'], ['build']).on('change', browserSync.reload);
+    gulp.watch(['gulpConfig.js.src'], ['build']).on('change', browserSync.reload);
     gulp.watch(['example/**/*.html']).on('change', browserSync.reload);
 });
 
@@ -257,7 +272,7 @@ gulp.task('test:spec', ['build', 'lint:source', 'karma:inject'], function (done)
 
 
 gulp.task('lint:source', function (){
-    return gulp.src('./src/**/*.js')
+    return gulp.src(gulpConfig.js.src)
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.eslint.failAfterError());
@@ -265,7 +280,7 @@ gulp.task('lint:source', function (){
 
 
 gulp.task('lint:source:nofail', function(){
-    return gulp.src('./src/**/*.js')
+    return gulp.src(gulpConfig.js.src)
     .pipe($.eslint())
     .pipe($.eslint.format());
 });
@@ -273,7 +288,7 @@ gulp.task('lint:source:nofail', function(){
 
 
 gulp.task('watch:source', ['lint:source:nofail'], function(){
-    gulp.watch(['src/**/*.js'], ['lint:source:nofail']);
+    gulp.watch([gulpConfig.js.src], ['lint:source:nofail']);
 });
 
 
